@@ -1,0 +1,36 @@
+{
+  "name": "address-book",
+  "version": "1.0.0",
+  "description": "AddressBook",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "server": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bhavya3113/Address-Book.git"
+  },
+  "author": "bhavya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bhavya3113/Address-Book/issues"
+  },
+  "homepage": "https://github.com/bhavya3113/Address-Book#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.0.1",
+    "email-regex": "^5.0.0",
+    "express": "^4.18.1",
+    "express-validator": "^6.14.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.7.0",
+    "mongoose": "^6.4.3",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.7.7",
+    "nodemailer-sendgrid-transport": "^0.2.0",
+    "nodemon": "^2.0.19",
+    "otp-generator": "^4.0.0"
+  }
+}
