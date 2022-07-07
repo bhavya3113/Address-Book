@@ -9,6 +9,8 @@ router.post("/addcontact",isAuth,contactController.addContact);
 router.patch("/updatecontact",isAuth,contactController.updateContact);
 router.delete("/deletecontact",isAuth,contactController.deleteContact);
 router.get("/getuser",isAuth,contactController.getuser);
+router.get("/getlist",isAuth,contactController.getContactlist);
+router.get("/search",isAuth,contactController.search);
 
 const multer = require('multer');
 const storage = multer.diskStorage({

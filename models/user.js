@@ -15,7 +15,7 @@ const userSchema = new schema({
     require:true
   },
   mobileno:{
-    type: Number,
+    type: String,
     require: true
   },
   contactlist:[{

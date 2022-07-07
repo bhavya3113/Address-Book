@@ -7,11 +7,15 @@ const contactSchema = new schema({
     require: true
   },
   mobileno:{
-    type: Number,
+    type: String,
     require: true
   },
   email:{
     type:String
+  },
+  belongsto:{
+    type: schema.Types.ObjectId,
+    require:true 
   }
 })
 

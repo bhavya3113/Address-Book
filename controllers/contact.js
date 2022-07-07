@@ -35,7 +35,8 @@ exports.addContact= async (req, res, next) => {
       const contact = new Contact({
        fullname:name,
        mobileno:mobile,
-       email:email 
+       email:email,
+       belongsto:userId
       })
       await contact.save();
       await user.contactlist.push(contact);
@@ -70,11 +71,12 @@ exports.addbulkContact= async (req, res, next) => {
                 const id = new mongoose.Types.ObjectId();
               var oneRow = {
                   _id:id,
+                  belongsto:userId,
                   fullname: filedata[i]["Fullname"],
-                  mobileno: filedata[i]["MobileNo"],
+                  mobileno: filedata[i]["Mobileno"],
                   email: filedata[i]["Email"]
               }; 
-                  // console.log(oneRow)
+                  console.log(oneRow)
                   arrayToInsert[i]=oneRow;    
                   await user.contactlist.push(id);
                   await user.save();
@@ -82,7 +84,7 @@ exports.addbulkContact= async (req, res, next) => {
              
           // console.log(arrayToInsert)
             Contact.insertMany(arrayToInsert);  
-        res.send('File uploaded!') 
+            return res.status(201).json({message:"file uploaded"});
              }
              else{
               const err = new Error('File Not Uploaded');
@@ -102,13 +104,54 @@ exports.getuser= async (req, res, next) => {
   try {
 
     const userId = req.user._id;
-    const user = await User.findById(userId).populate('contactlist');
+    const user = await User.findById(userId).populate('contactlist',{"belongsto":0,});
       if (!user) {
       const error = new Error("User not found!!");
       error.statusCode = 400;
       throw error;
       }
       return res.status(201).json({user:user});
+    }
+  catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+}
+
+exports.search= async (req, res, next) => {
+  try {
+    const search = req.query.search;
+    const userId = req.user._id;
+    const contact = await Contact.find({$and: [
+      { belongsto: userId },
+      { $or: [ {fullname:{$regex:search,$options:"i"}},{mobileno:{$regex:search,$options:"i"}}]}
+      ]})
+      return res.status(201).json({contact:contact});
+    }
+  catch (err) {
+    if (!err.statusCode) {
+      err.statusCode = 500;
+    }
+    next(err);
+  }
+}
+
+exports.getContactlist= async (req, res, next) => {
+  try {
+
+    const userId = req.user._id;
+    const page = req.query.page;
+    const limit = req.query.limit;
+    const user = await User.findById(userId).populate('contactlist',{"belongsto":0,});
+      if (!user) {
+      const error = new Error("User not found!!");
+      error.statusCode = 400;
+      throw error;
+      }
+      const paginatedItems = await Contact.find({belongsto:userId}).limit(limit*1).skip((page-1)*limit)
+      res.status(201).json({result:paginatedItems});
     }
   catch (err) {
     if (!err.statusCode) {
@@ -136,11 +179,8 @@ exports.updateContact= async (req, res, next) => {
       throw error;
     }
     await Contact.findByIdAndUpdate(contactid,{
-        fullname:name,
-        mobileno:mobile,
-        email:email 
-      },{omitUndefined: true});
-      return res.status(201).json({message:"contact updated"});
+      fullname:name,mobileno:mobile,email:email},{omitUndefined: true});
+     return res.status(201).json({message:"contact updated"});
     }
   catch (err) {
     if (!err.statusCode) {
