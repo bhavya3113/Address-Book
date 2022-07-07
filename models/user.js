@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const schema = mongoose.Schema;
 
-const studentSchema = new schema({
+const userSchema = new schema({
   fullname:{
     type: String,
     require: true
@@ -17,7 +17,11 @@ const studentSchema = new schema({
   mobileno:{
     type: Number,
     require: true
-  }
+  },
+  contactlist:[{
+    type:schema.Types.ObjectId,
+    ref: 'contacts'
+  }]
 })
 
-module.exports = mongoose.model("users",studentSchema);
+module.exports = mongoose.model("users",userSchema);
