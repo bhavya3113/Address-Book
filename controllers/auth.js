@@ -14,6 +14,7 @@ const mail = require("../utils/sendemail");
 
 var emailregex = /^[-!#$%&'*+\/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+\/0-9=?A-Z^_a-z`{|}~])*@[a-zA-Z0-9](-*\.?[a-zA-Z0-9])*\.[a-zA-Z](-?[a-zA-Z0-9])+$/
 
+//signing up a new user
 exports.signup = async (req, res, next) => {
   try {
     const errors = validationResult(req);
@@ -62,6 +63,7 @@ exports.signup = async (req, res, next) => {
   }
 }
 
+//for otp verification
 exports.otpVerification = async (req, res, next) => {
   try {
     const { email, otp, password, name,mobile} = req.body;
@@ -106,7 +108,8 @@ exports.otpVerification = async (req, res, next) => {
     next(err);
   }
 }
-  
+ 
+//to resend otp
 exports.resendotp = async (req,res,next)=>{
   try{
   const {email} = req.body;
@@ -132,6 +135,8 @@ exports.resendotp = async (req,res,next)=>{
           next(err);
   }
 }
+
+//to login
 exports.login = async (req, res, next) => {
   try {
     const errors = validationResult(req);
@@ -175,7 +180,7 @@ exports.login = async (req, res, next) => {
   }
 }
 
-
+//to generate access token
 exports.generateAccessToken = async (req, res, next) => {
   try {
     const { refreshtoken } = req.body;
@@ -201,7 +206,7 @@ exports.generateAccessToken = async (req, res, next) => {
   }
 };
 
-
+//to logout
 exports.logout = async (req, res, next) => {
   try {
     const { refreshToken } = req.body;
@@ -224,6 +229,7 @@ exports.logout = async (req, res, next) => {
   }
 };
 
+//to reset password of your account
 exports.resetpass = async (req, res, next) => {
   if (!validationResult(req).isEmpty())
       return res.status(422).json('please enter a valid email');
@@ -265,6 +271,7 @@ exports.resetpass = async (req, res, next) => {
   }
 };
 
+//verifying user before allowing to reset password
 exports.verify = async (req, res, next) => {
   if (!validationResult(req).isEmpty())
       return res.status(422).json('please enter a valid email');
@@ -297,6 +304,7 @@ exports.verify = async (req, res, next) => {
   }
 };
  
+//to set new passowrd
 exports.newpassword = async (req, res, next) => {
   try{
     if (!validationResult(req).isEmpty())

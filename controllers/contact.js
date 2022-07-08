@@ -6,6 +6,7 @@ const csvtojson = require("csvtojson");
 const User = require("../models/user");
 const Contact = require("../models/contact");
 
+//to add a single contact
 exports.addContact= async (req, res, next) => {
   try {
 
@@ -51,6 +52,7 @@ exports.addContact= async (req, res, next) => {
   }
 }
 
+//to upload a file (contacts in bulk)
 exports.addbulkContact= async (req, res, next) => {
   try {
      const userId = req.user._id;
@@ -100,6 +102,7 @@ exports.addbulkContact= async (req, res, next) => {
   }
 }
 
+//to get user details and contact list with details of each contact
 exports.getuser= async (req, res, next) => {
   try {
 
@@ -120,6 +123,7 @@ exports.getuser= async (req, res, next) => {
   }
 }
 
+//to search in your contact list by name or number
 exports.search= async (req, res, next) => {
   try {
     const search = req.query.search;
@@ -138,6 +142,7 @@ exports.search= async (req, res, next) => {
   }
 }
 
+//to get contact list with pagination
 exports.getContactlist= async (req, res, next) => {
   try {
 
@@ -161,6 +166,7 @@ exports.getContactlist= async (req, res, next) => {
   }
 }
 
+//to update a contact in your contact list
 exports.updateContact= async (req, res, next) => {
   try {
     const userId = req.user._id;
@@ -190,6 +196,7 @@ exports.updateContact= async (req, res, next) => {
   }
 }
 
+//to delete a contact in your contact list
 exports.deleteContact= async (req, res, next) => {
   try {
     const userId = req.user._id;
